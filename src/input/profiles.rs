@@ -293,6 +293,24 @@ pub struct ProfileProperties {
     /// Corresponds to Prop_SupportedButtons_Uint64
     /// Can be pulled from a SteamVR System Report
     pub legacy_buttons_mask: u64,
+    /// Properties reported for the HMD while this profile is active.
+    /// Some games (e.g. Fallout 4 VR) select their control scheme based on HMD identity
+    /// rather than controller identity, so the HMD should look like the headset that
+    /// typically ships with these controllers.
+    pub hmd: HmdProperties,
+}
+
+/// HMD identity properties. Manufacturer and tracking system name are shared with the
+/// controllers (see [ProfileProperties]).
+pub struct HmdProperties {
+    /// Corresponds to Prop_ModelNumber_String
+    /// Can be pulled from a SteamVR System Report
+    pub model: &'static CStr,
+    /// Corresponds to Prop_ControllerType_String
+    /// Note that this is *not* the controllers' type - SteamVR reports e.g. "rift" or "indexhmd" here.
+    pub controller_type: &'static CStr,
+    /// Corresponds to Prop_SerialNumber_String
+    pub serial_number: &'static CStr,
 }
 
 pub enum MainAxisType {
